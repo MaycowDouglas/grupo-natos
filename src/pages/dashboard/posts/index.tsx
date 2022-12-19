@@ -26,18 +26,16 @@ const PostsPage: NextPage = () => {
           ) : (
             featuredPosts.posts?.map((post, index) => {
               return (
-                index < 4 && (
-                  <SwiperSlide className="max-w-xs" key={String(index)}>
-                    <NewsCard
-                      slug={post.slug}
-                      date={`${new Date(post.date).getDate()}/${
-                        new Date(post.date).getMonth() + 1
-                      }/${new Date(post.date).getFullYear()}`}
-                      title={post.title}
-                      image={post.featuredImage.node.sourceUrl}
-                    />
-                  </SwiperSlide>
-                )
+                <SwiperSlide className="max-w-xs" key={String(index)}>
+                  <NewsCard
+                    slug={post.slug}
+                    date={`${new Date(post.date).getDate()}/${
+                      new Date(post.date).getMonth() + 1
+                    }/${new Date(post.date).getFullYear()}`}
+                    title={post.title}
+                    image={post.featuredImage.node.sourceUrl}
+                  />
+                </SwiperSlide>
               )
             })
           )}
@@ -52,19 +50,17 @@ const PostsPage: NextPage = () => {
           ) : (
             allPosts.posts?.map((post, index) => {
               return (
-                index < 4 && (
-                  <SwiperSlide className="max-w-xs" key={String(index)}>
-                    <NewsCard
-                      slug={post.slug}
-                      date={`${new Date(post.date).getDate()}/${
-                        new Date(post.date).getMonth() + 1
-                      }/${new Date(post.date).getFullYear()}`}
-                      title={post.title}
-                      image={post.featuredImage.node.sourceUrl}
-                      isOld
-                    />
-                  </SwiperSlide>
-                )
+                <SwiperSlide className="max-w-xs" key={String(index)}>
+                  <NewsCard
+                    slug={post.slug}
+                    date={`${new Date(post.date).getDate()}/${
+                      new Date(post.date).getMonth() + 1
+                    }/${new Date(post.date).getFullYear()}`}
+                    title={post.title}
+                    image={post.featuredImage.node.sourceUrl}
+                    isOld
+                  />
+                </SwiperSlide>
               )
             })
           )}
