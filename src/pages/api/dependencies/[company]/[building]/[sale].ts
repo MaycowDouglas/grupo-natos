@@ -3,10 +3,10 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { sessionOptions } from '~/configs/session'
 import fetchJson, { FetchError } from '~/lib/fetchJson'
-import { UserVenturesAPIResponse } from '~/types/user'
 
-async function venturesRoute(req: NextApiRequest, res: NextApiResponse<UserVenturesAPIResponse>) {
+async function DependenciesRoute(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user
+  const { sale, building, company } = req.query
 
   if (!user || user.isLogged === false) {
     res.status(401).end()
@@ -14,8 +14,8 @@ async function venturesRoute(req: NextApiRequest, res: NextApiResponse<UserVentu
   }
 
   try {
-    const response: UserVenturesAPIResponse = await fetchJson(
-      `${process.env.UAU_BASEURL_INTEGRATION}/Venda/ConsultarEmpreendimentosCliente`,
+    const response: any = await fetchJson(
+      `${process.env.UAU_BASEURL_INTEGRATION}/Venda/BuscarParcelasAReceber`,
       {
         method: 'POST',
         headers: {
@@ -25,7 +25,11 @@ async function venturesRoute(req: NextApiRequest, res: NextApiResponse<UserVentu
           'X-INTEGRATION-Authorization': String(process.env.UAU_TOKEN_INTEGRATION),
         },
         body: JSON.stringify({
-          codigo_usuario: user.code,
+          empresa: parseInt(String(company)),
+          obra: building,
+          num_ven: parseInt(String(sale)),
+          data_calculo: new Date().toISOString(),
+          valor_presente: true,
         }),
       }
     )
@@ -36,8 +40,8 @@ async function venturesRoute(req: NextApiRequest, res: NextApiResponse<UserVentu
       console.error(error.message)
     }
     console.error(error)
-    res.status(400).json([{ MyTable: [] }])
+    res.status(400).json([])
   }
 }
 
-export default withIronSessionApiRoute(venturesRoute, sessionOptions)
+export default withIronSessionApiRoute(DependenciesRoute, sessionOptions)
