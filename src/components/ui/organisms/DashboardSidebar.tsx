@@ -27,19 +27,19 @@ export const DashboardSidebar = ({ isOpen, onClick, pathname }: Props) => {
     },
     {
       icon: <BarcodeIcon />,
-      link: `/dashboard/user/${user?.code}/boletos`,
+      link: `/dashboard/boletos`,
       label: 'Boletos',
       activeCodition: pathname.includes('/dashboard/boletos'),
     },
     {
       icon: <FileIcon />,
-      link: `/dashboard/user/${user?.code}/statements`,
+      link: `/dashboard/statements`,
       label: 'Extrato',
       activeCodition: pathname.includes('/dashboard/statements'),
     },
     {
       icon: <FilePlusIcon />,
-      link: `/dashboard/user/${user?.code}/dependencies`,
+      link: `/dashboard/dependencies`,
       label: 'Pendências',
       activeCodition: pathname.includes('/dashboard/dependencies'),
     },

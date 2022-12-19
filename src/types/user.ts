@@ -42,3 +42,18 @@ export type ApiResponseUserLogged = [
   { dadostelefone: UserPhoneData[] },
   { dadosendereco: UserAddressData[] }
 ]
+
+export type UserVentures = {
+  Empresa_ven: number
+  Obra_Ven: string
+  Num_Ven: number
+  Cliente_Ven: number
+  Contrato_Ven: number
+  Nome_pes: string
+  Descr_obr: string
+  EmiteBoleto_CVen: boolean
+  Identificador_unid: string
+  Empreendimento_ven: string
+}
+
+export type UserVenturesAPIResponse = [{ MyTable: UserVentures[] }]
