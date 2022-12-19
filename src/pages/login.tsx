@@ -14,7 +14,7 @@ import fetchJson, { FetchError } from '~/lib/fetchJson'
 const LoginPage: NextPage = () => {
   const [messageError, setMessageError] = useState('')
   const { mutateUser } = useUser({
-    redirectTo: '/dashboard/',
+    redirectTo: '/dashboard/posts',
     redirectIfFound: true,
   })
 

@@ -3,6 +3,7 @@ import {
   ButtonHTMLAttributes,
   HTMLAttributes,
   InputHTMLAttributes,
+  ReactNode,
 } from 'react'
 
 import { availableMasks } from '~/utils/masks'
@@ -32,3 +33,9 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 }
 
 export type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {}
+
+export type TemplateProps = {
+  title: string
+  description: string
+  children: ReactNode
+}
