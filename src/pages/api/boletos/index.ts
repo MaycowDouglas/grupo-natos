@@ -27,7 +27,7 @@ async function boletosRoute(req: NextApiRequest, res: NextApiResponse<Boleto[]>)
         body: JSON.stringify({
           usuario: user.username,
           codPessoa: user.code,
-          naoMostraBoletoVencido: true,
+          naoMostraBoletoVencido: false,
           tipo_usuario: 1,
         }),
       }
@@ -36,7 +36,9 @@ async function boletosRoute(req: NextApiRequest, res: NextApiResponse<Boleto[]>)
     res.status(200).json(response)
   } catch (error) {
     if (error instanceof FetchError) {
-      console.error(error.message)
+      if (error.response.status === 401) {
+        req.session.destroy()
+      }
     }
     console.error(error)
     res.status(400).json([])

@@ -35,7 +35,9 @@ async function irpfRoute(req: NextApiRequest, res: NextApiResponse) {
     res.status(200).json(response)
   } catch (error) {
     if (error instanceof FetchError) {
-      console.error(error.message)
+      if (error.response.status === 401) {
+        req.session.destroy()
+      }
     }
     console.error(error)
     res.status(400).json([])

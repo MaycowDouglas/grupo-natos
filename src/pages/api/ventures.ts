@@ -33,6 +33,9 @@ async function venturesRoute(req: NextApiRequest, res: NextApiResponse<UserVentu
     res.status(200).json(response)
   } catch (error) {
     if (error instanceof FetchError) {
+      if (error.response.status === 401) {
+        req.session.destroy()
+      }
       console.error(error.message)
     }
     console.error(error)
