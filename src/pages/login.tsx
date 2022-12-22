@@ -28,15 +28,13 @@ const LoginPage: NextPage = () => {
       }
 
       try {
-        const response = mutateUser(
+        mutateUser(
           await fetchJson('/api/login', {
             method: 'POST',
             headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
           })
         )
-
-        console.log(response)
       } catch (error) {
         if (error instanceof FetchError) {
           if (error.response.status === 400) {
