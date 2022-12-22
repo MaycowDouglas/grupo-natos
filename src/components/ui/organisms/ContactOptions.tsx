@@ -30,7 +30,23 @@ export const ContactOptions = () => {
               <ImWhatsapp />
             </span>
             <span>
-              <strong className="text-lg font-medium leading-4 block">Whatsapp</strong>
+              <strong className="text-lg font-medium leading-4 block">Whatsapp Atendimento</strong>
+              <small>Fale conosco através do Whatsapp</small>
+            </span>
+            <FiChevronRight className="absolute right-0 text-3xl" />
+          </a>
+        </li>
+        <li className="border-t-2 border-gray-200"></li>
+        <li className="px-4 py-5">
+          <a
+            href="https://api.whatsapp.com/send?phone=5562996915677&text=Ol%C3%A1"
+            className="relative flex items-center gap-3"
+          >
+            <span className="grid place-content-center w-10 h-10 rounded-full bg-green-500 text-xl text-white">
+              <ImWhatsapp />
+            </span>
+            <span>
+              <strong className="text-lg font-medium leading-4 block">Whatsapp Cobrança</strong>
               <small>Fale conosco através do Whatsapp</small>
             </span>
             <FiChevronRight className="absolute right-0 text-3xl" />
