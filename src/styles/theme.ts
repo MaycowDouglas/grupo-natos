@@ -3,7 +3,10 @@ export const theme = {
     box: 'inline-flex justify-center items-center gap-2 px-10 py-2',
     defaults: 'rounded-full border-2 font-medium transition-all',
     text: {
-      fill: 'text-white',
+      fill: {
+        default: 'text-white',
+        white: 'text-black',
+      },
       outline: {
         red: 'text-red-700',
         blue: 'text-blue-700',

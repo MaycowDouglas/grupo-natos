@@ -14,7 +14,9 @@ export const Button = ({
     button.box,
     button.border[color],
     isOutline ? button.background.outline : button.background.fill[color],
-    isOutline ? button.text.outline[color] : button.text.fill,
+    isOutline
+      ? button.text.outline[color]
+      : button.text.fill[color === 'white' ? 'white' : 'default'],
     button.defaults,
     className
   )
