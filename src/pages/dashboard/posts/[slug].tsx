@@ -20,17 +20,24 @@ const PostPage = () => {
         {isLoading ? (
           <p>carregando...</p>
         ) : (
-          <div className="relative grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-20 md:max-h-[550px] md:overflow-auto">
-            <div className="relative">
-              <div className="sticky top-0 w-full h-48 md:h-60 lg:h-[400px] rounded-xl overflow-hidden">
-                <Image src={String(post?.featuredImage.node.sourceUrl)} alt="" fill />
+          <div className="relative flex flex-col lg:flex-row gap-10 max-w-[1536px]">
+            <div className="relative lg:w-1/2">
+              <div className="sticky top-5 rounded-xl overflow-hidden">
+                <Image
+                  src={String(post?.featuredImage.node.sourceUrl)}
+                  width={768}
+                  height={384}
+                  alt=""
+                />
               </div>
             </div>
-            <div className="pr-2 pb-7">
+            <div className="pr-2 pb-7 lg:w-1/2">
               <span className="text-gray-500">{ISOStringToNormalDate(String(post?.date))}</span>
-              <Heading className="mt-3 mb-10">{post?.title}</Heading>
+              <Heading size={24} className="mt-3 mb-6 lg:text-3xl">
+                {post?.title}
+              </Heading>
               <div
-                className="space-y-5"
+                className="space-y-5 xl:text-lg"
                 dangerouslySetInnerHTML={{ __html: String(post?.content) }}
               />
             </div>
