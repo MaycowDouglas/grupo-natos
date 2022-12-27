@@ -24,7 +24,12 @@ const StatementsPage = () => {
     setYear(event.currentTarget.value.replace(/\D/g, ''))
   }, [])
 
-  async function getIRPF(sale: string, building: string, company: string, year: string): Promise<string> {
+  async function getIRPF(
+    sale: string,
+    building: string,
+    company: string,
+    year: string
+  ): Promise<string> {
     try {
       return await fetchJson('/api/irpf', {
         method: 'POST',

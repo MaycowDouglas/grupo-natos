@@ -25,9 +25,9 @@ async function irpfRoute(req: NextApiRequest, res: NextApiResponse) {
           'X-INTEGRATION-Authorization': String(process.env.UAU_TOKEN_INTEGRATION),
         },
         body: JSON.stringify({
-          vendasobras_empresa: [[sale,building,company]],
+          vendasobras_empresa: [[sale, building, company]],
           ano_base: year,
-          naomostrardados_venda: true
+          naomostrardados_venda: true,
         }),
       }
     )
