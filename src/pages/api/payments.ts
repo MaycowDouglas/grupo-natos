@@ -4,9 +4,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { sessionOptions } from '~/configs/session'
 import fetchJson, { FetchError } from '~/lib/fetchJson'
 
-async function irpfRoute(req: NextApiRequest, res: NextApiResponse) {
+async function PaymentsRoute(req: NextApiRequest, res: NextApiResponse) {
   const user = req.session.user
-  const { sale, building, company, year } = req.body
+  const { sale, building, company } = req.body
 
   if (!user || user.isLogged === false) {
     res.status(401).end()
@@ -15,7 +15,7 @@ async function irpfRoute(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const response: any = await fetchJson(
-      `${process.env.UAU_BASEURL_INTEGRATION}/RelatorioIRPF/GerarPDFRelIRPF`,
+      `${process.env.UAU_BASEURL_INTEGRATION}/ExtratoDoCliente/GerarPDFExtratoCliente`,
       {
         method: 'POST',
         headers: {
@@ -25,9 +25,16 @@ async function irpfRoute(req: NextApiRequest, res: NextApiResponse) {
           'X-INTEGRATION-Authorization': String(process.env.UAU_TOKEN_INTEGRATION),
         },
         body: JSON.stringify({
-          vendasobras_empresa: [[sale,building,company]],
-          ano_base: year,
-          naomostrardados_venda: true
+          empresa: parseInt(company),
+          obra: building,
+          numVenda: parseInt(sale),
+          tipoOrdenacao: 0,
+          dataCalculo: new Date().toISOString(),
+          ocultarUsuario: true,
+          valorAntecipado: true,
+          dataProrrogacao: true,
+          ocultarPersonalizacao: true,
+          residuoIraComporValorTotal: true,
         }),
       }
     )
@@ -45,4 +52,4 @@ async function irpfRoute(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withIronSessionApiRoute(irpfRoute, sessionOptions)
+export default withIronSessionApiRoute(PaymentsRoute, sessionOptions)

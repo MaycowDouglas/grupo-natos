@@ -24,9 +24,21 @@ const StatementsPage = () => {
     setYear(event.currentTarget.value.replace(/\D/g, ''))
   }, [])
 
-  async function getIRPF(sale: string, building: string, company: string): Promise<string> {
+  async function getIRPF(sale: string, building: string, company: string, year: string): Promise<string> {
     try {
       return await fetchJson('/api/irpf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sale, building, company, year }),
+      })
+    } catch (error) {
+      return ''
+    }
+  }
+
+  async function getPayments(sale: string, building: string, company: string): Promise<string> {
+    try {
+      return await fetchJson('/api/payments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sale, building, company }),
@@ -40,12 +52,22 @@ const StatementsPage = () => {
     nProgress.start()
 
     if (year.length === 4) {
-      const response = await getIRPF(sale, building, company)
+      const response = await getIRPF(sale, building, company, year)
       setPdfLink([`data:application/pdf;base64,${response}`])
       setModalVisibility(true)
     } else {
       alert('Informe o ano')
     }
+
+    nProgress.done()
+  }
+
+  const handleGetPayments = async (sale: string, building: string, company: string) => {
+    nProgress.start()
+
+    const response = await getPayments(sale, building, company)
+    setPdfLink([`data:application/pdf;base64,${response}`])
+    setModalVisibility(true)
 
     nProgress.done()
   }
@@ -90,7 +112,7 @@ const StatementsPage = () => {
                 <span className="hidden md:inline-grid text-sm font-medium text-gray-500">
                   Empresa
                 </span>
-                <span className="hidden md:inline-grid md:col-span-2 xl:col-span-1 text-sm font-medium text-gray-500">
+                <span className="hidden md:inline-grid md:col-span-2 xl:col-span-2 text-sm font-medium text-gray-500">
                   Nº Contrato
                 </span>
                 <span className="hidden md:inline-grid lg:col-span-5 text-sm font-medium text-gray-500">
@@ -107,12 +129,12 @@ const StatementsPage = () => {
                       <span className="hidden md:inline-grid text-xs font-bold">
                         {venture.Empresa_ven}
                       </span>
-                      <span className="hidden md:inline-grid md:col-span-2 xl:col-span-1 text-xs font-bold">
+                      <span className="hidden md:inline-grid md:col-span-2 xl:col-span-2 text-xs font-bold">
                         {venture.Num_Ven}
                       </span>
                       <span
                         className="
-                          col-span-12 md:col-span-4 lg:col-span-5 xl:col-span-8
+                          col-span-12 md:col-span-4 lg:col-span-4 xl:col-span-5
                           px-10 pb-3 md:px-0 md:pb-0 
                           text-center md:text-left 
                           text-xs font-bold
@@ -123,7 +145,7 @@ const StatementsPage = () => {
                       <span
                         className="
                           inline-flex justify-center items-center gap-1 
-                          col-span-12 md:col-span-5 lg:col-span-4 xl:col-span-2 
+                          col-span-12 md:col-span-5 lg:col-span-5 xl:col-span-4 
                           text-xs font-bold
                         "
                       >
@@ -148,6 +170,19 @@ const StatementsPage = () => {
                         >
                           IRPF
                         </button>
+
+                        <button
+                          onClick={() =>
+                            handleGetPayments(
+                              String(venture.Num_Ven),
+                              venture.Obra_Ven,
+                              String(venture.Empresa_ven)
+                            )
+                          }
+                          className="px-4 py-1 md:px-6 md:py-2 bg-blue-700 border-2 border-blue-700 rounded-full text-white hover:border-blue-700 hover:bg-transparent hover:text-blue-700"
+                        >
+                          Pagamentos
+                        </button>
                       </span>
                     </div>
                   )
@@ -171,70 +206,3 @@ const StatementsPage = () => {
 }
 
 export default StatementsPage
-
-{
-  /* <Box>
-        <div className="grid grid-cols-12 items-center mb-5 md:space-x-5">
-          <span className="hidden md:inline-flex text-sm font-medium text-gray-500">Empresa</span>
-          <span className="hidden md:inline-grid md:col-span-2 xl:col-span-1 text-sm font-medium text-gray-500">
-            Nº Contrato
-          </span>
-          <span className="hidden xl:inline-grid xl:col-span-3 text-sm font-medium text-gray-500">
-            Empreendimento
-          </span>
-          <span className="col-span-12 md:col-span-4 lg:col-span-3 xl:col-span-2 text-sm font-medium text-gray-500">
-            Cód-Descrição do Produto
-          </span>
-          <span className="hidden lg:inline-grid lg:col-span-3 text-sm font-medium text-gray-500">
-            Cód Produto-Identificador Unid.
-          </span>
-        </div>
-
-        {ventures.data?.map((venture, index: number) => {
-          if (index > 0) {
-            return (
-              <div key={index} className="grid grid-cols-12 items-center md:space-x-5 my-3">
-                <span className="hidden md:inline-grid text-xs font-bold">
-                  {venture.Empresa_ven}
-                </span>
-                <span className="hidden md:inline-grid md:col-span-2 xl:col-span-1 text-xs font-bold">
-                  {venture.Num_Ven}
-                </span>
-                <span className="hidden xl:inline-grid xl:col-span-3 text-xs font-bold">
-                  {venture.Empreendimento_ven}
-                </span>
-                <span className="col-span-6 md:col-span-4 lg:col-span-3 xl:col-span-2 text-xs font-bold">
-                  {venture.Descr_obr}
-                </span>
-                <span className="hidden lg:inline-grid lg:col-span-3 text-xs font-bold">
-                  {venture.Identificador_unid}
-                </span>
-                <span className="col-span-6 md:col-span-5 lg:col-span-3 xl:col-span-2 inline-flex justify-end items-center gap-1 text-xs font-bold">
-                  <input
-                    type="text"
-                    placeholder="Ano"
-                    className="rounded-full px-4 py-1 md:px-6 md:py-2 w-20 outline-none border-2"
-                    value={year}
-                    onChange={handleChangeYear}
-                    maxLength={4}
-                  />
-
-                  <button
-                    onClick={() =>
-                      handleIRPFSearch(
-                        String(venture.Num_Ven),
-                        venture.Obra_Ven,
-                        String(venture.Empresa_ven)
-                      )
-                    }
-                    className="px-4 py-1 md:px-6 md:py-2 bg-slate-200 border-2 border-slate-200 rounded-full hover:border-black hover:bg-black hover:text-white"
-                  >
-                    IRPF
-                  </button>
-                </span>
-              </div>
-            )
-          }
-        })}
-      </Box> */
-}
