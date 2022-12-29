@@ -106,13 +106,13 @@ const BoletosPage = () => {
               <table className="w-full text-left mt-10">
                 <thead>
                   <tr className="">
-                    <th className="pb-6 hidden md:table-cell text-gray-500 font-medium">Emissão</th>
-                    <th className="pb-6 text-gray-500 font-medium">Vencimento</th>
-                    <th className="pb-6 hidden lg:table-cell text-gray-500 font-medium">Número</th>
-                    <th className="pb-6 hidden lg:table-cell text-gray-500 font-medium">Banco</th>
-                    <th className="pb-6 hidden lg:table-cell text-gray-500 font-medium">Empresa</th>
-                    <th className="pb-6 text-gray-500 font-medium">Valor</th>
-                    <th className="pb-6">
+                    <th className="pb-1 hidden md:table-cell text-gray-500 font-medium">Emissão</th>
+                    <th className="pb-1 text-gray-500 font-medium">Vencimento</th>
+                    <th className="pb-1 hidden lg:table-cell text-gray-500 font-medium">Número</th>
+                    <th className="pb-1 hidden lg:table-cell text-gray-500 font-medium">Banco</th>
+                    <th className="pb-1 hidden lg:table-cell text-gray-500 font-medium">Empresa</th>
+                    <th className="pb-1 text-gray-500 font-medium">Valor</th>
+                    <th className="pb-1">
                       <span className="invisible">Ação</span>
                     </th>
                   </tr>
@@ -200,7 +200,7 @@ const BoletosPage = () => {
                   ) : (
                     <>
                       <tr>
-                        <td className={`pl-5 py-2 hidden md:table-cell text-sm font-medium`}>
+                        <td className={`py-2 hidden md:table-cell text-sm font-medium`}>
                           {date.ISOStringToNormalDate(
                             boletos.data[boletos.data.length - 1].dataEmissao
                           )}
@@ -216,7 +216,7 @@ const BoletosPage = () => {
                         <td className="py-2 hidden lg:table-cell text-sm font-medium">
                           {boletos.data[boletos.data.length - 1].nomeBanco}
                         </td>
-                        <td className="py-2 text-sm font-medium">
+                        <td className="py-2 hidden lg:table-cell text-sm font-medium">
                           <span>{boletos.data[boletos.data.length - 1].descricaoEmpresa}</span>
                         </td>
                         <td className="py-2 text-sm font-medium">

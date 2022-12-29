@@ -76,7 +76,9 @@ export const DependencieTable = ({ sale, venture, company, building }: Props) =>
                       className="py-2 hidden md:table-cell text-sm font-medium uppercase"
                     ></td>
                     <td className="py-2 text-sm font-medium uppercase">Total</td>
-                    <td className="py-2 lg:table-cell text-sm font-medium">R$ {total}</td>
+                    <td className="py-2 lg:table-cell text-sm font-medium">
+                      R$ {total.toFixed(2)}
+                    </td>
                   </tr>
                 )}
               </>

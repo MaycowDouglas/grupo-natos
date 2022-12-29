@@ -3,10 +3,15 @@ import Link from 'next/link'
 import { MouseEventHandler } from 'react'
 import { FaTimes } from 'react-icons/fa'
 
-import { BarcodeIcon, FileIcon, FilePlusIcon, HomeIcon } from '~/components/ui/atoms/Icons'
+import {
+  BarcodeIcon,
+  FileIcon,
+  FilePlusIcon,
+  HomeIcon,
+  VenturesIcon,
+} from '~/components/ui/atoms/Icons'
 import { NavItem } from '~/components/ui/atoms/NavItem'
 import { NavLink } from '~/components/ui/atoms/NavLink'
-import useUser from '~/hooks/useUser'
 import BrandNatosN from '~/public/images/brands/natos-n.png'
 import BrandNatos from '~/public/images/brands/natos.png'
 
@@ -17,34 +22,6 @@ type Props = {
 }
 
 export const DashboardSidebar = ({ isOpen, onClick, pathname }: Props) => {
-  const { user } = useUser()
-  const navigation = [
-    {
-      icon: <HomeIcon />,
-      link: '/dashboard/posts',
-      label: 'Notícias',
-      activeCodition: pathname.includes('/dashboard/posts'),
-    },
-    {
-      icon: <BarcodeIcon />,
-      link: `/dashboard/boletos`,
-      label: 'Boletos',
-      activeCodition: pathname.includes('/dashboard/boletos'),
-    },
-    {
-      icon: <FileIcon />,
-      link: `/dashboard/statements`,
-      label: 'Extrato',
-      activeCodition: pathname.includes('/dashboard/statements'),
-    },
-    {
-      icon: <FilePlusIcon />,
-      link: `/dashboard/dependencies`,
-      label: 'Pendências',
-      activeCodition: pathname.includes('/dashboard/dependencies'),
-    },
-  ]
-
   return (
     <aside
       className={`absolute top-0 left-0 bottom-0 w-fit p-5 h-screen bg-stone-900 z-20 transition-all
@@ -67,13 +44,37 @@ export const DashboardSidebar = ({ isOpen, onClick, pathname }: Props) => {
       <div className="mt-10">
         <h2 className="text-stone-600 font-medium">Menu</h2>
         <ul>
-          {navigation.map((item, index) => (
-            <NavItem key={index} className="border-b-2 border-stone-800">
-              <NavLink href={item.link} isActive={item.activeCodition}>
-                {item.icon} <span>{item.label}</span>
-              </NavLink>
-            </NavItem>
-          ))}
+          <NavItem className="border-b-2 border-stone-800">
+            <NavLink href="/dashboard/posts" isActive={pathname.includes('/dashboard/posts')}>
+              <HomeIcon /> <span>Notícias</span>
+            </NavLink>
+          </NavItem>
+          <NavItem className="border-b-2 border-stone-800">
+            <NavLink href="/dashboard/boletos" isActive={pathname.includes('/dashboard/boletos')}>
+              <BarcodeIcon /> <span>Boletos</span>
+            </NavLink>
+          </NavItem>
+          <NavItem className="border-b-2 border-stone-800">
+            <NavLink href="/dashboard/ventures" isActive={pathname.includes('/dashboard/ventures')}>
+              <VenturesIcon /> <span>Empreendimentos</span>
+            </NavLink>
+          </NavItem>
+          <NavItem className="border-b-2 border-stone-800">
+            <NavLink
+              href="/dashboard/statements"
+              isActive={pathname.includes('/dashboard/statements')}
+            >
+              <FileIcon /> <span>Extrato</span>
+            </NavLink>
+          </NavItem>
+          <NavItem className="border-b-2 border-stone-800">
+            <NavLink
+              href="/dashboard/dependencies"
+              isActive={pathname.includes('/dashboard/dependencies')}
+            >
+              <FilePlusIcon /> <span>Pendências</span>
+            </NavLink>
+          </NavItem>
         </ul>
       </div>
     </aside>

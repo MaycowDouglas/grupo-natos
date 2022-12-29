@@ -24,7 +24,7 @@ export const DashboardHeader = ({ username, title, handleSidebar }: Props) => {
   return (
     <>
       {userOptionsIsVisible && <OverlayLayer onClick={() => setUserOptionsVisibility(false)} />}
-      <header className="flex lg:items-center justify-between py-5 px-10 bg-white">
+      <header className="flex lg:items-center justify-between py-5 px-5 md:px-10 bg-white">
         <div>
           <button
             onClick={handleSidebar}
@@ -32,7 +32,7 @@ export const DashboardHeader = ({ username, title, handleSidebar }: Props) => {
           >
             <FiMenu />
           </button>
-          <h1 className="mt-4 lg:mt-0 text-4xl font-medium">{title}</h1>
+          <h1 className="mt-4 lg:mt-0 text-2xl md:text-4xl font-medium">{title}</h1>
         </div>
         <div className="inline relative mt-2 lg:mt-0">
           <button
