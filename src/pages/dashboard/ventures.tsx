@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
+import { FiDownload } from 'react-icons/fi'
 import { Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -13,7 +14,6 @@ import useVenturesContent from '~/hooks/useVenturesContent'
 
 import 'swiper/css'
 import 'swiper/css/pagination'
-import { FiDownload } from 'react-icons/fi'
 
 const PostPage = () => {
   const { user } = useUser()
@@ -92,7 +92,9 @@ const PostPage = () => {
                     {ventures.content?.[selectedTab].documents.nodes.map((document, index) => (
                       <li key={index}>
                         <a
+                          rel="noreferrer"
                           href={document.mediaItemUrl}
+                          target="_blank"
                           className="inline-flex items-center gap-2 text-blue-700"
                           download
                         >

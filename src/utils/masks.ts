@@ -2,13 +2,12 @@ import { KeyboardEvent } from 'react'
 
 export type availableMasks = 'email' | 'phone' | 'cpf' | 'cnpj'
 
-const masks = {
+export const masks = {
   phone: (value: string) => {
-    // output => (99) 9 9999-9999
+    // output => (99) 99999-9999
     return value
       .replace(/\D/g, '')
       .replace(/^(\d{2})(\d)/, '($1) $2')
-      .replace(/(\d)(\d{8})$/, '$1 $2')
       .replace(/(\d)(\d{4})$/, '$1-$2')
   },
   cpf: (value: string) => {
@@ -45,8 +44,8 @@ export default function handleFormMasks(e: KeyboardEvent<HTMLInputElement>, mask
       break
 
     case 'phone':
-      e.currentTarget.minLength = 16
-      e.currentTarget.maxLength = 16
+      e.currentTarget.minLength = 15
+      e.currentTarget.maxLength = 15
       e.currentTarget.value = masks.phone(e.currentTarget.value)
       break
 

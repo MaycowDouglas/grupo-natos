@@ -24,6 +24,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
 
     const {
       '0': { dadospessoais },
+      '1': { dadostelefone },
     }: ApiResponseUserLogged = await fetchJson(
       `${process.env.UAU_BASEURL_INTEGRATION}/Autenticador/ConsultarDadosUsrLogado`,
       {
@@ -37,10 +38,14 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
     )
 
     const user = {
-      name: dadospessoais[1].nome,
-      code: dadospessoais[1].codigo,
       token,
       username,
+      name: dadospessoais[1].nome,
+      code: dadospessoais[1].codigo,
+      phones: dadostelefone,
+      email: dadospessoais[1].email,
+      document: dadospessoais[1].cpf,
+      birthdate: dadospessoais[1].dtnasc,
       isLogged: true,
     } as UserSession
 

@@ -1,8 +1,12 @@
 export type UserSession = {
   code: number
   name: string
+  email: string
   token: string
+  phones: UserPhoneData[]
+  document: string
   username: string
+  birthdate: Date
   isLogged: boolean
 }
 

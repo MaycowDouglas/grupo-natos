@@ -8,7 +8,7 @@ export const theme = {
         white: 'text-black',
       },
       outline: {
-        red: 'text-red-700',
+        red: 'text-red-500',
         blue: 'text-blue-700',
         green: 'text-green-600',
         yellow: 'text-yellow-500',
@@ -17,7 +17,7 @@ export const theme = {
       },
     },
     border: {
-      red: 'border-red-700',
+      red: 'border-red-500',
       blue: 'border-blue-700',
       green: 'border-green-600',
       yellow: 'border-yellow-500',
@@ -26,7 +26,7 @@ export const theme = {
     },
     background: {
       fill: {
-        red: 'bg-red-700',
+        red: 'bg-red-500',
         blue: 'bg-blue-700',
         green: 'bg-green-600',
         yellow: 'bg-yellow-500',
