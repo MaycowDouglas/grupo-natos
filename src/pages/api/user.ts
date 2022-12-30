@@ -24,6 +24,10 @@ async function userRoute(req: NextApiRequest, res: NextApiResponse<UserSession>)
       name: '',
       token: '',
       username: '',
+      email: '',
+      phones: [],
+      birthdate: new Date(),
+      document: '',
       isLogged: false,
     })
   }

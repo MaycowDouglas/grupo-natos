@@ -7,7 +7,7 @@ export default async function mainRoute(req: NextApiRequest, res: NextApiRespons
   sgMail.setApiKey(String(process.env.SENDGRID_API_KEY))
 
   const msg = {
-    to: 'site.grupo.natos@gmail.com',
+    to: 'atendimento@gruponatos.com.br',
     from: 'sistema@quantico.cc',
     subject: subject,
     html: `
