@@ -6,7 +6,17 @@ import { UserSession } from '~/types/user'
 
 function logoutRoute(req: NextApiRequest, res: NextApiResponse<UserSession>) {
   req.session.destroy()
-  res.json({ code: 0, name: '', token: '', username: '', isLogged: false })
+  res.json({
+    code: 0,
+    name: '',
+    token: '',
+    username: '',
+    email: '',
+    phones: [],
+    birthdate: new Date(),
+    document: '',
+    isLogged: false,
+  })
 }
 
 export default withIronSessionApiRoute(logoutRoute, sessionOptions)
