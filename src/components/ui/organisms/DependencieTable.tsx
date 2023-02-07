@@ -20,9 +20,11 @@ export const DependencieTable = ({ sale, venture, company, building }: Props) =>
   useEffect(() => {
     if (!installments.isLoading) {
       let totalReaj = 0
+      const nextMounth = new Date()
+      nextMounth.setMonth(nextMounth.getMonth() + 1)
 
       const filteredInstallments = installments.data.filter((installment: any, index: number) => {
-        if (new Date(installment.Data_Prc) < new Date()) {
+        if (new Date(installment.Data_Prc) < nextMounth) {
           totalReaj += installment.ValorReaj
           return installment
         }

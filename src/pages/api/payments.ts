@@ -47,8 +47,11 @@ async function PaymentsRoute(req: NextApiRequest, res: NextApiResponse) {
       }
       console.error(error.message)
     }
-    console.error(error)
-    res.status(400).json([])
+    console.error({
+      error,
+      body: req.body,
+    })
+    res.status(400).json(error)
   }
 }
 

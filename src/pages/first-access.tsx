@@ -31,7 +31,7 @@ const FirstAccessPage = () => {
 
       console.log(response)
     } catch (error) {
-      console.error(error)
+      alert('Pessoa não encontrada!')
     }
   }, [])
 
@@ -50,7 +50,13 @@ const FirstAccessPage = () => {
             <Input type="text" name="document" mask="cpf" placeholder="CPF" required />
             <Input type="text" name="login" placeholder="Login" minLength={6} required />
             <Input type="email" name="email" placeholder="Email" required />
-            <InputPassword name="password" placeholder="Senha" minLength={6} required />
+            <InputPassword
+              name="password"
+              placeholder="Senha"
+              minLength={6}
+              maxLength={6}
+              required
+            />
             <div className="space-y-2">
               <Button className="w-full">Criar Acesso</Button>
               <ButtonLink href="/login" className="w-full" color="red" isOutline>

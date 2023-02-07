@@ -2,6 +2,7 @@
   "extends": ["next/core-web-vitals", "plugin:prettier/recommended"],
   "plugins": ["prettier", "eslint-plugin-import-helpers"],
   "rules": {
+    "no-console": "warn",
     "prettier/prettier": "error",
     "import-helpers/order-imports": [
       "warn",

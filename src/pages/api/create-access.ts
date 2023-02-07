@@ -6,6 +6,23 @@ export default async function createAccessRoute(req: NextApiRequest, res: NextAp
   const { document, birthdate, login, password, email } = req.body
 
   try {
+    const token = await fetchJson(
+      `${process.env.UAU_BASEURL_INTEGRATION}/Autenticador/AutenticarUsuario`,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'X-INTEGRATION-Authorization': String(process.env.UAU_TOKEN_INTEGRATION),
+        },
+        body: JSON.stringify({
+          Login: process.env.UAU_USER_INTEGRATION,
+          Senha: process.env.UAU_USER_PASSWORD,
+          UsuarioUAUSite: 'string',
+        }),
+      }
+    )
+
     const response: any = await fetchJson(
       `${process.env.UAU_BASEURL_INTEGRATION}/Pessoas/CriarCredenciaisUAUWeb`,
       {
@@ -13,6 +30,7 @@ export default async function createAccessRoute(req: NextApiRequest, res: NextAp
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          Authorization: String(token),
           'X-INTEGRATION-Authorization': String(process.env.UAU_TOKEN_INTEGRATION),
         },
         body: JSON.stringify({
@@ -29,7 +47,7 @@ export default async function createAccessRoute(req: NextApiRequest, res: NextAp
   } catch (error) {
     console.error(error)
     if (error instanceof FetchError) {
-      return res.status(500).json({ message: error.message })
+      return res.status(500).json({ error })
     } else {
       return res.status(500).json({ message: (error as Error).message })
     }

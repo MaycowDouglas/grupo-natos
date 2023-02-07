@@ -21,6 +21,8 @@ const DependenciesPage = () => {
   const [isLoading, setLoading] = useState(true)
   const [selectedTab, setTab] = useState<string>('')
 
+  console.log(user?.token)
+
   useEffect(() => {
     nProgress.start()
 

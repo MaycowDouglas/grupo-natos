@@ -118,7 +118,7 @@ const BoletosPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {boletos.data.length < 4 ? (
+                  {boletos.data.length > 4 ? (
                     <>
                       {boletos.data.map((boleto, index) => {
                         const today = new Date()
