@@ -1,21 +1,25 @@
+import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
+import { AiOutlineBarcode, AiOutlineLike, AiOutlineQrcode } from 'react-icons/ai'
 
+import useBoletos from '~/hooks/useBoletos'
 import useDependencies from '~/hooks/useDependencies'
 import useUser from '~/hooks/useUser'
-import { date } from '~/utils/date'
+import fetchJson from '~/lib/fetchJson'
+import { UserVentures } from '~/types/user'
+import { classNames } from '~/utils/classNames'
 
 type Props = {
-  sale: number
-  venture: string
-  company: number
-  building: string
+  show: boolean
+  venture: UserVentures
 }
 
-export const DependencieTable = ({ sale, venture, company, building }: Props) => {
+export default function DependencieTable({ venture, show = false }: Props) {
   const { user } = useUser()
+  const installments = useDependencies(user, venture.Num_Ven, venture.Empresa_ven, venture.Obra_Ven)
+
   const [total, setTotal] = useState<number>(0)
   const [dependencies, setDependencies] = useState([])
-  const installments = useDependencies(user, sale, company, building)
 
   useEffect(() => {
     if (!installments.isLoading) {
@@ -23,9 +27,12 @@ export const DependencieTable = ({ sale, venture, company, building }: Props) =>
       const nextMounth = new Date()
       nextMounth.setMonth(nextMounth.getMonth() + 1)
 
-      const filteredInstallments = installments.data.filter((installment: any, index: number) => {
+      const filteredInstallments = installments.data.filter((installment: any) => {
         if (new Date(installment.Data_Prc) < nextMounth) {
-          totalReaj += installment.ValorReaj
+          totalReaj +=
+            new Date(installment.Data_Prc) > new Date()
+              ? installment.Valor_Prc
+              : installment.ValorReaj
           return installment
         }
       })
@@ -35,15 +42,28 @@ export const DependencieTable = ({ sale, venture, company, building }: Props) =>
     }
   }, [installments.data, installments.isLoading])
 
-  return (
+  if (!installments.isLoading && installments.data.length === 0) {
+    return (
+      <div className="w-full h-96 flex justify-center items-end">
+        <div className="flex flex-col items-center opacity-40 text-center">
+          <AiOutlineLike className="text-slate-600 text-9xl" />
+          <h2 className="text-3xl font-medium text-slate-600">
+            Você não possui pagamentos pendentes!
+          </h2>
+        </div>
+      </div>
+    )
+  }
+
+  return show ? (
     <table className="w-full mt-10">
       <thead>
         <tr className="text-left">
-          <th className="pb-3 hidden md:table-cell text-gray-500 font-medium">Venda</th>
+          <th className="pb-3 hidden md:table-cell text-gray-500 font-medium">Nº Venda</th>
+          <th className="pb-3 hidden md:table-cell text-gray-500 font-medium">Nº Parcela</th>
           <th className="pb-3 md:table-cell text-gray-500 font-medium">Vencimento</th>
-          <th className="pb-3 hidden md:table-cell text-gray-500 font-medium">Unidade</th>
-          <th className="pb-3 hidden md:table-cell text-gray-500 font-medium">Valor da Parcela</th>
-          <th className="pb-3 text-gray-500 font-medium">Valor da Reajustado</th>
+          <th className="pb-3 md:table-cell text-gray-500 font-medium">Valor</th>
+          <th className="pb-3 md:table-cell text-gray-500 font-medium">Valor reajustado</th>
         </tr>
       </thead>
       <tbody>
@@ -58,19 +78,25 @@ export const DependencieTable = ({ sale, venture, company, building }: Props) =>
             return (
               <>
                 <tr key={index} className="">
-                  <td className="py-2 hidden md:table-cell text-sm font-medium">{sale}</td>
-                  <td className="py-2 md:table-cell text-sm font-medium">
-                    {date.ISOStringToNormalDate(dependencie.Data_Prc)}
+                  <td className="py-2 hidden md:table-cell text-sm font-medium">
+                    {venture.Num_Ven}
                   </td>
-                  <td className="py-2 hidden md:table-cell text-sm font-medium">{venture}</td>
+                  <td className="py-2 hidden md:table-cell text-sm font-medium">
+                    {dependencie.NumParc_Prc}
+                  </td>
+                  <td className="py-2 md:table-cell text-sm font-medium">
+                    {new Date(dependencie.Data_Prc).toLocaleDateString()}
+                  </td>
                   <td className="py-2 hidden md:table-cell text-sm font-medium">
                     R$ {dependencie.Valor_Prc}
                   </td>
-                  <td className="py-2 lg:table-cell text-sm font-medium">
-                    R$ {dependencie.ValorReaj}
+                  <td className="py-2 hidden md:table-cell text-sm font-medium">
+                    R${' '}
+                    {new Date(dependencie.Data_Prc) > new Date()
+                      ? dependencie.Valor_Prc
+                      : dependencie.ValorReaj}
                   </td>
                 </tr>
-
                 {index === dependencies.length - 1 && (
                   <tr key={index} className="border-t-2">
                     <td
@@ -89,5 +115,7 @@ export const DependencieTable = ({ sale, venture, company, building }: Props) =>
         )}
       </tbody>
     </table>
+  ) : (
+    <></>
   )
 }

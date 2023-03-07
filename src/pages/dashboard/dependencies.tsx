@@ -1,3 +1,5 @@
+import 'swiper/css'
+
 import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { AiOutlineLike } from 'react-icons/ai'
@@ -8,20 +10,16 @@ import { Box } from '~/components/ui/atoms/Box'
 import { Button } from '~/components/ui/atoms/Button'
 import { ButtonLink } from '~/components/ui/atoms/ButtonLink'
 import { Text } from '~/components/ui/atoms/Text'
-import { DependencieTable } from '~/components/ui/organisms/DependencieTable'
+import DependencieTable from '~/components/ui/organisms/DependencieTable'
 import useUser from '~/hooks/useUser'
 import useVentures from '~/hooks/useVentures'
 
-import 'swiper/css'
-
-const DependenciesPage = () => {
+export default function DependenciesPage() {
   const { user } = useUser()
   const ventures = useVentures(user)
 
   const [isLoading, setLoading] = useState(true)
-  const [selectedTab, setTab] = useState<string>('')
-
-  console.log(user?.token)
+  const [selectedTab, setTab] = useState<number>(0)
 
   useEffect(() => {
     nProgress.start()
@@ -32,12 +30,14 @@ const DependenciesPage = () => {
 
     if (!isLoading) {
       if (ventures.data && ventures.data.length > 1) {
-        setTab(ventures.data[1].Descr_obr)
+        setTab(ventures.data[1].Num_Ven)
       }
 
       nProgress.done()
     }
-  }, [ventures.isLoading, ventures.data, isLoading])
+
+    nProgress.done()
+  }, [ventures.data, ventures.isLoading, isLoading])
 
   return (
     <TemplateDashboard title="Pendências" description="Todos as pendências">
@@ -45,13 +45,17 @@ const DependenciesPage = () => {
         <>
           {ventures.data && ventures.data.length > 1 ? (
             <>
-              <Box className="lg:max-h-[400px] overflow-y-auto">
-                <Swiper spaceBetween={20} slidesPerView="auto">
+              <Box>
+                <Swiper spaceBetween={10} slidesPerView="auto">
                   {ventures.data?.map((venture, index) => {
                     return (
                       index > 0 && (
-                        <SwiperSlide key={index} className="max-w-xs">
-                          <Button className="text-xs" isOutline={selectedTab !== venture.Descr_obr}>
+                        <SwiperSlide key={index} className="max-w-xs px-5 md:max-w-sm">
+                          <Button
+                            className="text-xs"
+                            isOutline={selectedTab !== venture.Num_Ven}
+                            onClick={() => setTab(venture.Num_Ven)}
+                          >
                             {venture.Empreendimento_ven}
                           </Button>
                         </SwiperSlide>
@@ -65,15 +69,14 @@ const DependenciesPage = () => {
                     index > 0 && (
                       <DependencieTable
                         key={index}
-                        venture={venture.Identificador_unid}
-                        sale={venture.Num_Ven}
-                        company={venture.Empresa_ven}
-                        building={venture.Obra_Ven}
+                        show={selectedTab === venture.Num_Ven}
+                        venture={venture}
                       />
                     )
                   )
                 })}
               </Box>
+
               <Box className="bg-slate-300">
                 <div className="grid grid-cols-12 itens-center p-5">
                   <Text className="col-span-6 text-gray-600">
@@ -103,5 +106,3 @@ const DependenciesPage = () => {
     </TemplateDashboard>
   )
 }
-
-export default DependenciesPage

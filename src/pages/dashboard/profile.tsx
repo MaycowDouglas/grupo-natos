@@ -42,8 +42,6 @@ const ProfilePage: NextPage = () => {
     [router, mutateUser]
   )
 
-  console.log(user)
-
   return (
     <TemplateDashboard title="Perfil" description="">
       <main className="grid place-content-center md:h-[600px]">
