@@ -15,10 +15,10 @@ async function PixByInstallmentRoute(req: NextApiRequest, res: NextApiResponse) 
     return
   }
 
-  if (building !== 'OLPAC' || company !== 1) {
-    res.status(403).end()
-    return
-  }
+  // if (building !== 'OLPAC' || company !== 1) {
+  //   res.status(403).end()
+  //   return
+  // }
 
   try {
     const uau_user_token: string = await fetchJson(
